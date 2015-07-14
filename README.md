@@ -5,7 +5,7 @@
 
 Parse JSDOC of functions and generates tests for them. 
 
-## For functions simple functions
+## Easy function result tests
 
 ```javascript
 /** 
@@ -26,3 +26,5 @@ function sum(a,b){
 
 ### Pluggins
 * mocha (pending)
+* chai/assert (pending)
+* chai/expect.js (pending)
