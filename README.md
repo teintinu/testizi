@@ -9,15 +9,25 @@ Parse JSDOC of functions and generates tests for them.
 
 ```javascript
 /** 
-  @test sum(1, 1) == 2
-  @test sum(1, 1) > 1  
+  @test divide(10, 2) == 5
+  @test divide(21, 7) > 20
+  @throw divide(2, 0) - /Division by zero/
 */
 
 function sum(a,b){
-  return a+b;
+  if (b==0)
+    throw new Error("Division by zero");
+  return a/b;
 }
 
 ```
+
+### Get started
+
+1. `$ npm install testizi`
+2. write your code
+> Tip: Try copy the sample above. Try force a fail.
+3. `$ npm run testizi SOURCE_DIR TARGET_DIR`
 
 ### Support
 * async (pending)
@@ -25,6 +35,20 @@ function sum(a,b){
 * promises (pending)
 
 ### Pluggins
+* chai/expect.js 
 * mocha (pending)
 * chai/assert (pending)
-* chai/expect.js (pending)
+
+### FAQ
+1. Why this project?
+> lazy to write repeated codes
+
+2. This project solve all situations for write unit tests?
+> No, just some situations, generally, repetitive situations.
+
+3. Can I help this project?
+> Yeah! We need help! 
+
+4. How I can help?
+> Writing documentations, testing, coding...
+

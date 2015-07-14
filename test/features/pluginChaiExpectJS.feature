@@ -18,32 +18,32 @@ false            ┆ !a()                 ┆ { "code": "expect($actual,'!a()').
                  
 
 ---------------------------------------------------------------------------------------
-equals           ┆ a() == b             ┆ { "code": "expect($actual,'a() == b').to.be.equal(b);", 
+equals           ┆ a() == b             ┆ { "code": "expect($actual,'a()').to.be.equal(b);", 
                  ┆                      ┆   "flags": [] }
 
 ---------------------------------------------------------------------------------------
-deep equals      ┆ a() === b            ┆ { "code": "expect($actual,'a() === b').to.deep.equal(b);", 
+deep equals      ┆ a() === b            ┆ { "code": "expect($actual,'a()').to.deep.equal(b);", 
                  ┆                      ┆   "flags": [] }
 
 ---------------------------------------------------------------------------------------
-greater then     ┆ a() > b              ┆ { "code": "expect($actual,'a() > b').to.be.above(b);", 
+greater then     ┆ a() > b              ┆ { "code": "expect($actual,'a()').to.be.above(b);", 
                  ┆                      ┆   "flags": [] }
 
-less then        ┆ a() < b              ┆ { "code": "expect($actual,'a() < b').to.be.below(b);", 
+less then        ┆ a() < b              ┆ { "code": "expect($actual,'a()').to.be.below(b);", 
                  ┆                      ┆   "flags": [] }
 
-greater or       ┆ a() >= b             ┆ { "code": "expect($actual,'a() >= b').to.be.at.least(b);", 
+greater or       ┆ a() >= b             ┆ { "code": "expect($actual,'a()').to.be.at.least(b);", 
   equal          ┆                      ┆   "flags": [] }
 
-less or          ┆ a() <= b             ┆ { "code": "expect($actual,'a() <= b').to.be.at.most(b);", 
+less or          ┆ a() <= b             ┆ { "code": "expect($actual,'a()').to.be.at.most(b);", 
   equal          ┆                      ┆   "flags": [] }
 
 ---------------------------------------------------------------------------------------
-not equals       ┆ a() != b             ┆ { "code": "expect($actual,'a() != b').to.not.equal(b);", 
+not equals       ┆ a() != b             ┆ { "code": "expect($actual,'a()').to.not.equal(b);", 
                  ┆                      ┆   "flags": [] }
 
 ---------------------------------------------------------------------------------------
-not deep equals  ┆ a() !== b            ┆ { "code": "expect($actual,'a() !== b').to.not.deep.equal(b);", 
+not deep equals  ┆ a() !== b            ┆ { "code": "expect($actual,'a()').to.not.deep.equal(b);", 
                  ┆                      ┆   "flags": [] }
 
 
