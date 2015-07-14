@@ -9,13 +9,13 @@ Scenario: [case]
 Examples:
 case:ID          ┆ js                                        ┆ json
 ---------------------------------------------------------------------------------------
-one test         ┆ /** Returns the sum of a and b            ┆ [{name: 'sum',
-                 ┆  * @param {Number} a                      ┆  tests: [
-                 ┆  * @param {Number} b                      ┆    {"operator": "true",
-                 ┆  * @returns {Number} Sum of a and b       ┆      "callee": "sum", 
-                 ┆  * @test sum(1,1) == 2                    ┆      "args": [1, 1],
-                 ┆ */                                        ┆      "lineNumber": 5}
-                 ┆ function sum(a,b) {                       ┆  ]
-                 ┆   return a + b;                           ┆ }]
-                 ┆ }                                         ┆ 
+one test         ┆ /** Returns the sum of a and b            ┆ [{
+                 ┆  * @param {Number} a                      ┆  "name": "sum",
+                 ┆  * @param {Number} b                      ┆  "tests": [  
+                 ┆  * @returns {Number} Sum of a and b       ┆    {"operator": "==",  
+                 ┆  * @test sum(1,1) == 2                    ┆      "callee": "sum", 
+                 ┆ */                                        ┆      "args": [1, 1],
+                 ┆ function sum(a,b) {                       ┆      "expected": 2,
+                 ┆   return a + b;                           ┆      "lineNumber": 4}
+                 ┆ }                                         ┆ ]}]
 
