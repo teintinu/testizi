@@ -1,0 +1,38 @@
+{
+  "name": "testizi",
+  "version": "0.0.1",
+  "description": "Easy Test for Node/Javascript",
+  "main": "lib/testizi.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/_mocha --reporter dot",
+    "istanbul": "NODE_ENV=test istanbul cover _mocha -- -u exports --reporter spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thr0w/testizi.git"
+  },
+  "keywords": [
+    "Node",
+    "Javascript",
+    "Test",
+    "Mocha"
+  ],
+  "author": "thr0w",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/thr0w/testizi/issues"
+  },
+  "homepage": "https://github.com/thr0w/testizi",
+  "dependencies": {
+    "doctrine": "^0.6.4",
+    "recast": "^0.10.20"
+  },
+  "devDependencies": {
+    "yadda": "https://github.com/thr0w/yadda/tarball/master",
+    "mocha": "^2.2.5",
+    "chain": "^3.0.0",
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.17"
+  }
+}
