@@ -10,9 +10,9 @@ Examples:
 case:ID          ┆ jsdoc                ┆ json
 ---------------------------------------------------------------------------------------
 without star     ┆ /** sample           ┆ [{"operator": "true", 
-                 ┆ @test a()            ┆  "name": "a", "args": [],
+                 ┆ @test a()            ┆  "callee": "a", "args": [],
                  ┆ */                   ┆  "lineNumber": 1}]
 ---------------------------------------------------------------------------------------
 with star        ┆ /** sample           ┆ [{"operator": "true", 
-                 ┆ * @test a()          ┆  "name": "a", "args": [],
+                 ┆ * @test a()          ┆  "callee": "a", "args": [],
                  ┆ */                   ┆  "lineNumber": 1}]

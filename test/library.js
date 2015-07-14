@@ -26,24 +26,9 @@ var library = English.library(dictionary)
     next();
 })
 
-.given("a JsDoc $TEXT", function (jsdoc_caase, next) {
-    parsed_expression = null;
-    parse_error = null;
-    next();
-})
-
 .when("(?:try )?parse expression $TEXT", function (assertion, next) {
     try {
         parsed_expression = testizi.parseExpression(assertion);
-    } catch (e) {
-        parse_error = e;
-    }
-    next();
-})
-
-.when("(?:try )?parse jsdoc $TEXT", function (jsdoc, next) {
-    try {
-        parsed_expression = testizi.parseJsDoc(jsdoc);
     } catch (e) {
         parse_error = e;
     }
@@ -57,15 +42,25 @@ var library = English.library(dictionary)
     assert.isObject(parsed_expression, 'parsed expression is not an object');
 
     if (expected_expression.expected)
-        parsed_expression.expected = recast.print(parsed_expression.expected);
+        parsed_expression.expected = recast.print(parsed_expression.expected).code;
     compare_obj(parsed_expression, expected_expression, '');
 
-    //    assert.equal(parsed_expression.operator, expected_expression.operator, 'operator');
-    //    assert.equal(parsed_expression.name, expected_expression.name, 'function name');
-    //    assert.deepEqual(parsed_expression.args, expected_expression.args, 'args');
-    //    if (expected_expression.expected)
-    //        assert.equal(,
-    //            expected_expression.expected, 'expected');
+    next();
+})
+
+
+.given("a JsDoc $TEXT", function (jsdoc_caase, next) {
+    parsed_expression = null;
+    parse_error = null;
+    next();
+})
+
+.when("(?:try )?parse jsdoc $TEXT", function (jsdoc, next) {
+    try {
+        parsed_expression = testizi.parseJsDoc(jsdoc);
+    } catch (e) {
+        parse_error = e;
+    }
     next();
 })
 
@@ -80,12 +75,43 @@ var library = English.library(dictionary)
         parsed_expression.expected = recast.print(parsed_expression.expected);
     compare_obj(parsed_expression, expected_expression, '');
 
-    //    assert.equal(parsed_expression.operator, expected_expression.operator, 'operator');
-    //    assert.equal(parsed_expression.name, expected_expression.name, 'function name');
-    //    assert.deepEqual(parsed_expression.args, expected_expression.args, 'args');
-    //    if (expected_expression.expected)
-    //        assert.equal(,
-    //            expected_expression.expected, 'expected');
+    next();
+})
+
+.given("a javascript source $TEXT", function (jsdoc_case, next) {
+    parsed_expression = null;
+    parse_error = null;
+    next();
+})
+
+.when("(?:try )?parse javascript $TEXT", function (js, next) {
+    try {
+        parsed_expression = testizi.parseSourceFromString(js);
+    } catch (e) {
+        parse_error = e;
+    }
+    next();
+})
+
+.then("result must be $TEXT with tests for source", function (json, next) {
+    assert.isNull(parse_error, parse_error);
+    var expected_expression = JSON.parse('{"functions":' +
+        json + "}").functions;
+
+    assert.isArray(parsed_expression, 'parsed expression is not an array');
+
+    parsed_expression.forEach(function (fn) {
+        fn.tests.forEach(function (t) {
+            if (t.expected)
+                t.expected = recast.print(t.expected).code;
+            t.args = t.args.map(function (a) {
+                return recast.print(a).code;
+            });
+        });
+    });
+
+    compare_obj(parsed_expression, expected_expression, '');
+
     next();
 })
 

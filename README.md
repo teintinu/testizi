@@ -7,6 +7,7 @@ Parse JSDOC of functions and generates tests for them.
 
 ## For functions simple functions
 
+```javascript
 /** 
   @test sum(1, 1) == 2
   @test sum(1, 1) > 1  
@@ -16,6 +17,7 @@ function sum(a,b){
   return a+b;
 }
 
+```
 
 ### Support
 * async (pending)
