@@ -9,10 +9,12 @@ Scenario: [case]
 Examples:
 case:ID          ┆ jsdoc                ┆ json
 ---------------------------------------------------------------------------------------
-without star     ┆ /** sample           ┆ [{"operator": "true", 
-                 ┆ @test a()            ┆  "callee": "a", "args": [],
-                 ┆ */                   ┆  "lineNumber": 1}]
+simple           ┆ /** sample           ┆ {"title": "sample",
+                 ┆ * @test a()          ┆  "tests":[{"operator": "true", 
+                 ┆ */                   ┆  "callee": "a", "args": [],
+                 ┆                      ┆  "lineNumber": 1}]}
 ---------------------------------------------------------------------------------------
-with star        ┆ /** sample           ┆ [{"operator": "true", 
-                 ┆ * @test a()          ┆  "callee": "a", "args": [],
-                 ┆ */                   ┆  "lineNumber": 1}]
+star forgotten   ┆ /** sample           ┆ {"title": "sample",
+                 ┆ @test a()            ┆  "tests":[{"operator": "true", 
+                 ┆ */                   ┆  "callee": "a", "args": [],
+                 ┆                      ┆  "lineNumber": 1}]}

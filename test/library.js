@@ -2,17 +2,21 @@
 "use strict";
 
 var chai = require('chai');
+var chai = chai.use(require('chai-subset'));
+var expect = chai.expect;
+
 var Yadda = require('yadda');
 var recast = require('recast');
+var b = recast.types.builders;
 
 var English = Yadda.localisation.English;
 var Dictionary = Yadda.Dictionary;
 
-var assert = chai.assert;
 
 var testizi = require('../lib/testizi');
+var chai_expectjs_plugin = require('../lib/plugins/chai').expectjs;
 
-var parsed_expression, parse_error;
+var casename, parsed_expression, parse_error;
 
 var dictionary = new Dictionary()
     .define('TEXT', /([^\u0000]*)/)
@@ -21,6 +25,7 @@ var dictionary = new Dictionary()
 var library = English.library(dictionary)
 
 .given("parseExpression must support $TEXT", function (op, next) {
+    casename = op;
     parsed_expression = null;
     parse_error = null;
     next();
@@ -36,20 +41,26 @@ var library = English.library(dictionary)
 })
 
 .then("result must be $TEXT with test", function (json, next) {
-    assert.isNull(parse_error, parse_error);
+
+    expect(parse_error, 'parse_error').to.be.null;
+
     var expected_expression = JSON.parse(json);
 
-    assert.isObject(parsed_expression, 'parsed expression is not an object');
+    expect(parsed_expression, 'parsed expression').to.be.an('object');
 
     if (expected_expression.expected)
-        parsed_expression.expected = recast.print(parsed_expression.expected).code;
-    compare_obj(parsed_expression, expected_expression, '');
+        expected_expression.expected = formatJS('expected', expected_expression.expected);
+    if (parsed_expression.expected)
+        parsed_expression.expected = formatJS('actual', parsed_expression.expected);
+
+    expect(parsed_expression).to.containSubset(expected_expression);
 
     next();
 })
 
 
-.given("a JsDoc $TEXT", function (jsdoc_caase, next) {
+.given("a JsDoc $TEXT", function (jsdoc_case, next) {
+    casename = jsdoc_case;
     parsed_expression = null;
     parse_error = null;
     next();
@@ -65,20 +76,23 @@ var library = English.library(dictionary)
 })
 
 .then("result must be $TEXT with tests", function (json, next) {
-    assert.isNull(parse_error, parse_error);
-    var expected_expression = JSON.parse('{"tests":' +
-        json + "}").tests;
+    expect(parse_error, 'parse_error').to.be.null;
 
-    assert.isArray(parsed_expression, 'parsed expression is not an array');
+    var expected_expression = JSON.parse(json);
 
-    if (expected_expression.expected)
-        parsed_expression.expected = recast.print(parsed_expression.expected);
-    compare_obj(parsed_expression, expected_expression, '');
+    expect(parsed_expression, 'parsed expression').to.be.an('object');
+
+    expected_expression.tests.forEach(function (test) {
+        if (test.expected)
+            test.expected = formatJS('actual', parsed_expression.expected);
+    });
+    expect(parsed_expression).to.containSubset(expected_expression);
 
     next();
 })
 
 .given("a javascript source $TEXT", function (jsdoc_case, next) {
+    casename = jsdoc_case;
     parsed_expression = null;
     parse_error = null;
     next();
@@ -86,7 +100,7 @@ var library = English.library(dictionary)
 
 .when("(?:try )?parse javascript $TEXT", function (js, next) {
     try {
-        parsed_expression = testizi.parseSourceFromString(js);
+        parsed_expression = testizi.parseSourceFromString(casename, js);
     } catch (e) {
         parse_error = e;
     }
@@ -94,51 +108,80 @@ var library = English.library(dictionary)
 })
 
 .then("result must be $TEXT with tests for source", function (json, next) {
-    assert.isNull(parse_error, parse_error);
-    var expected_expression = JSON.parse('{"functions":' +
-        json + "}").functions;
+    expect(parse_error, 'parse_error').to.be.null;
 
-    assert.isArray(parsed_expression, 'parsed expression is not an array');
+    var expected_expression = JSON.parse(json);
 
-    parsed_expression.forEach(function (fn) {
+    expect(parsed_expression, 'parsed expression').to.be.an('object');
+
+    parsed_expression.functions.forEach(function (fn) {
+        if (fn.code)
+            fn.code = formatJS('actual.' + fn.name + '.code', fn.code);
         fn.tests.forEach(function (t) {
             if (t.expected)
-                t.expected = recast.print(t.expected).code;
+                t.expected = formatJS('actual.' + fn + '.' + t.title + '.expected', t.expected);
             t.args = t.args.map(function (a) {
-                return recast.print(a).code;
+                return formatJS('actual.' + fn + '.' + t.title + '.arg', a);
             });
         });
     });
 
-    compare_obj(parsed_expression, expected_expression, '');
+    expected_expression.functions.forEach(function (fn) {
+        if (fn.code)
+            fn.code = formatJS('expected.' + fn.name + '.code', fn.code);
+        fn.tests.forEach(function (t) {
+            if (t.expected)
+                t.expected = formatJS('expected.' + fn + '.' + t.title + '.expected', t.expected);
+            t.args = t.args.map(function (a) {
+                return formatJS('actual.' + fn + '.' + t.title + '.arg', a);
+            });
+        });
+    });
+
+
+    expect(parsed_expression).to.containSubset(expected_expression);
+
+    next();
+
+}).then("chai\.expectjs result must be $TEXT", function (json, next) {
+    expect(parse_error, 'parse_error').to.be.null;
+
+    var actual = chai_expectjs_plugin(b.identifier('$actual'), parsed_expression);
+    var expected = JSON.parse(json);
+
+    if (actual && actual.code)
+        actual.code = formatJS('actual', actual.code);
+    if (expected && expected.code)
+        expected.code = formatJS('expected', expected.code);
+
+    expect(actual).to.containSubset(expected);
 
     next();
 })
 
 .then("must throw $TEXT", function (error, next) {
-    assert.throw(function () {
+    expect(function () {
         if (parse_error)
             throw parse_error;
     }, new RegExp(error));
     next();
 });
 
+function formatJS(msg, p) {
+    try {
+        if (typeof p === 'object' && p.type)
+            return formatJS(msg, recast.print(p).code);
+        return recast.prettyPrint(recast.parse(p), {
+            reuseWhitespace: false,
+            tabWidth: 2,
+            quote: 'double',
+            trailingComma: false
+        }).code
+    } catch (e) {
+        console.error(msg);
+        console.error(e);
+        throw e;
+    }
+}
+
 module.exports = library;
-
-function compare_obj(obj_actual, obj_expected, pref) {
-    for (var p in obj_expected) {
-        assert.isDefined(obj_actual[p], "Expected property " + p + (pref == '' ? '' : ' in ' + pref));
-        compare_value(obj_actual[p], obj_expected[p], pref + '.' + p);
-    }
-}
-
-function compare_value(actual, expected, pref) {
-    if (typeof expected === 'object') {
-        if (expected instanceof RegExp)
-            assert.match(actual, expected, pref);
-        else
-            compare_obj(actual, expected, pref);
-    } else {
-        assert.equal(actual, expected, pref);
-    }
-}
