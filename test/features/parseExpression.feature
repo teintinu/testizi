@@ -4,7 +4,7 @@ Scenario: [operator]
 
    Given parseExpression must support [operator]
     When parse expression [assertion]
-    Then result must be [json]
+    Then result must be [json] with test
 
 Examples:
 operator:ID      ┆ assertion            ┆ json
@@ -40,11 +40,11 @@ not deep equals  ┆ a() !== b            ┆ {"operator": "!==",
                  ┆                      ┆  "name": "a", "args": [], "expected": "b"}
 
 ---------------------------------------------------------------------------------------
-true             ┆ a()                  ┆ {"operator": "true", 
+true             ┆ a() // comment       ┆ {"operator": "true", 
   with comment   ┆                      ┆  "name": "a", "args": [],
                  ┆                      ┆  "comment": "comment"}
 ---------------------------------------------------------------------------------------
-false            ┆ !a()                 ┆ {"operator": "false", 
+false            ┆ !a() // comment      ┆ {"operator": "false", 
   with comment   ┆                      ┆  "name": "a", "args": [],
                  ┆                      ┆  "comment": "comment"}
 ---------------------------------------------------------------------------------------
@@ -52,8 +52,9 @@ equals           ┆ a() == b // comment  ┆ {"operator": "==",
   with comment   ┆                      ┆  "name": "a", "args": [], "expected": "b",
                  ┆                      ┆  "comment": "comment"}
 ---------------------------------------------------------------------------------------
-deep equals      ┆ a() === b            ┆ {"operator": "===",
-  with comment   ┆                      ┆  "name": "a", "args": [], "expected": "b"}
+deep equals      ┆ a() === b // comment ┆ {"operator": "===",
+  with comment   ┆                      ┆  "name": "a", "args": [], "expected": "b",
+                 ┆                      ┆  "comment": "comment"}
 ---------------------------------------------------------------------------------------
 greater          ┆ a() > b // comment   ┆ {"operator": ">", 
   with comment   ┆                      ┆  "name": "a", "args": [], "expected": "b",

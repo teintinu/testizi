@@ -12,5 +12,5 @@ Examples:
     a+1                ┆ Sintax error
                        ┆ 
   --------------------------------------------------------------------
-    a+1                ┆ Sintax error
+    !a                 ┆ Can't detect function
                        ┆ 
