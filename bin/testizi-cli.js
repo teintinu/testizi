@@ -1,6 +1,7 @@
 var testizi = require('../lib/testizi'),
     glob = require('glob'),
-    program = require('commander');
+    program = require('commander'),
+    mocha_plugin=require('../lib/plugins/mocha');
 
 program.executables = true;
 program
@@ -17,9 +18,6 @@ function runTests(path) {
     glob(path + "/**/*.js", {}, function (err, files) {
         if (err)
             throw err;
-        files.forEach(function (file) {
-            var parsed=testizi.parseSourceFromFile(file);
-            var mocha_test=
-        })
+        mocha_plugin(files);
     })
 }
