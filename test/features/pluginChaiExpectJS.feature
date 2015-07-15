@@ -13,7 +13,7 @@ true             ┆ a()                  ┆ { "code": "expect($actual,'a()').t
                  ┆                      ┆   "flags": [] }
 
 ---------------------------------------------------------------------------------------
-false            ┆ !a()                 ┆ { "code": "expect($actual,'!a()').to.be.false;", 
+false            ┆ !a()                 ┆ { "code": "expect($actual,'a()').to.be.false;", 
                  ┆                      ┆   "flags": [] }
                  
 

@@ -20,7 +20,7 @@ one test         ┆ /** Returns the sum of a and b            ┆ {
                  ┆ }                                         ┆        "callee": "sum", 
                  ┆                                           ┆        "args": [1, 1],
                  ┆                                           ┆        "expected": 2,
-                 ┆                                           ┆        "title": "sum(1,1) == 2",
+                 ┆                                           ┆        "call": "sum(1, 1)",
                  ┆                                           ┆        "lineNumber": 4
                  ┆                                           ┆      }
                  ┆                                           ┆    ],
