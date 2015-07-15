@@ -12,13 +12,14 @@ var b = recast.types.builders;
 var English = Yadda.localisation.English;
 var Dictionary = Yadda.Dictionary;
 
+var spawn = require('childprocess').spawn;
 
 var testizi = require('../lib/testizi');
 
 var chai_expectjs_plugin = require('../lib/plugins/chai').expectjs;
 var bdd_plugin = require('../lib/plugins/bdd');
 
-var casename, parsed_expression, parse_error;
+var casename, parsed_expression, parse_error, src_test;
 
 var dictionary = new Dictionary()
     .define('TEXT', /([^\u0000]*)/)
@@ -169,6 +170,30 @@ var library = English.library(dictionary)
     expected = formatJS('expected', expected);
 
     expect(actual).to.equals(expected);
+
+    src_test = actual;
+
+    next();
+})
+
+.and("bdd test must run with mocha", function (next) {
+
+    var proc = spawn('node', ['bin/testizi', '--stdin'], {
+        stdio: [
+          'pipe', 'pipe', 'pipe'
+        ]
+    });
+
+    proc.stdin.write(src_test);
+
+    proc.stdout.on('data', on_data);
+    proc.stderr.on('data', on_data);
+    function on_data(data){
+    }
+
+    proc.stderr.on('close', function(code){
+      proc.stdin.end();
+    });
 
     next();
 })

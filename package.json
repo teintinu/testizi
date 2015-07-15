@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Easy Test for Node/Javascript",
   "main": "lib/testizi.js",
+  "bin": {
+    "testizi": "./bin/testizi_cli.js"
+  },
   "scripts": {
     "test": "node node_modules/mocha/bin/_mocha --reporter dot",
     "istanbul": "NODE_ENV=test istanbul cover _mocha -- -u exports --reporter spec",
@@ -25,7 +28,9 @@
   },
   "homepage": "https://github.com/thr0w/testizi",
   "dependencies": {
+    "commander": "^2.8.1",
     "doctrine": "^0.6.4",
+    "glob": "^5.0.14",
     "recast": "^0.10.20"
   },
   "devDependencies": {

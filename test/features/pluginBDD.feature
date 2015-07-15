@@ -1,10 +1,11 @@
-Feature: Plugin mocha
+Feature: Plugin BDD (describe/it exporter)
 
 Scenario: BDD [case]
 
    Given a javascript source [case]
     When parse javascript [js]
     Then bdd test must be [bdd test]
+    And  bdd test must run with mocha
 
 Examples:
 
