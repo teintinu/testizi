@@ -10,50 +10,50 @@ Examples:
 operator:ID      ┆ assertion            ┆ json
 ---------------------------------------------------------------------------------------
 true             ┆ a()                  ┆ { "code": "expect($actual,'a()').to.be.true;", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 ---------------------------------------------------------------------------------------
 false            ┆ !a()                 ┆ { "code": "expect($actual,'a()').to.be.false;", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
                  
 
 ---------------------------------------------------------------------------------------
 equals           ┆ a() == b             ┆ { "code": "expect($actual,'a()').to.be.equal(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 ---------------------------------------------------------------------------------------
 deep equals      ┆ a() === b            ┆ { "code": "expect($actual,'a()').to.deep.equal(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 ---------------------------------------------------------------------------------------
 greater then     ┆ a() > b              ┆ { "code": "expect($actual,'a()').to.be.above(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 less then        ┆ a() < b              ┆ { "code": "expect($actual,'a()').to.be.below(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 greater or       ┆ a() >= b             ┆ { "code": "expect($actual,'a()').to.be.at.least(b);", 
-  equal          ┆                      ┆   "flags": [] }
+  equal          ┆                      ┆   "flags": {} }
 
 less or          ┆ a() <= b             ┆ { "code": "expect($actual,'a()').to.be.at.most(b);", 
-  equal          ┆                      ┆   "flags": [] }
+  equal          ┆                      ┆   "flags": {} }
 
 ---------------------------------------------------------------------------------------
 not equals       ┆ a() != b             ┆ { "code": "expect($actual,'a()').to.not.equal(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 ---------------------------------------------------------------------------------------
 not deep equals  ┆ a() !== b            ┆ { "code": "expect($actual,'a()').to.not.deep.equal(b);", 
-                 ┆                      ┆   "flags": [] }
+                 ┆                      ┆   "flags": {} }
 
 
 @Pending                 
 ---------------------------------------------------------------------------------------
-in               ┆ a() in b             ┆ { "code": "assert.in($actual, b, 'a() in b')", "flags": [in: true] }
+in               ┆ a() in b             ┆ { "code": "assert.in($actual, b, 'a() in b')", "flags": {in: true} }
 
 
 @Pending                 
 ---------------------------------------------------------------------------------------
 true             ┆ a() // comment       ┆ { "code": "assert.isTrue($actual, 'a() // comment');", 
-  with comment   ┆                      ┆  "flags": [] }
+  with comment   ┆                      ┆  "flags": {} }
 

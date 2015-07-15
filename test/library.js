@@ -16,7 +16,7 @@ var Dictionary = Yadda.Dictionary;
 var testizi = require('../lib/testizi');
 
 var chai_expectjs_plugin = require('../lib/plugins/chai').expectjs;
-var bdd_plugin = require('../lib/plugins/bdd').expectjs;
+var bdd_plugin = require('../lib/plugins/bdd');
 
 var casename, parsed_expression, parse_error;
 
@@ -162,7 +162,7 @@ var library = English.library(dictionary)
 }).then("bdd test must be $TEXT", function (bdd_test, next) {
     expect(parse_error, 'parse_error').to.be.null;
 
-    var actual = bdd_plugin(parsed_expression);
+    var actual = bdd_plugin([parsed_expression], chai_expectjs_plugin, '.');
     var expected = recast.parse(bdd_test);
 
     actual = formatJS('actual', actual);
